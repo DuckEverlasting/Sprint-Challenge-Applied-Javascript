@@ -4,6 +4,18 @@
 .border-bottom-grey {
   border-bottom: 1px solid lightgrey;
 }
+@keyframes to-left {
+  0% {
+    transform: translateX(0);
+    display: block;
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    display: none;
+  }
+}
 @font-face {
   font-family: 'PT Sans';
   font-style: italic;
@@ -298,10 +310,25 @@ body {
   right: 25px;
   transform: translate(0, -50%);
 }
-.carousel img {
+.carousel .img-box {
+  position: relative;
   width: 100%;
-  display: none;
+  height: 100%;
 }
-.carousel .visible {
-  display: block;
+.carousel .img-box img {
+  position: absolute;
+  width: 100%;
+  transition: none;
+}
+.carousel .img-box .left {
+  transform: translateX(-100%);
+}
+.carousel .img-box .right {
+  transform: translateX(100%);
+}
+.carousel .img-box .center {
+  transform: translateX(0);
+}
+.carousel .img-box .transition {
+  transition: transform 2s;
 }

@@ -1,14 +1,13 @@
 class Carousel {
     constructor(el) {
         this.el = el;
-        this.leftButton = el.querySelector(".left-button");
-        this.rightButton = el.querySelector(".right-button");
-        this.images = el.querySelectorAll(".carousel-img");
-        this.images[0].classList.add("visible") // STARTING IMAGE
+        this.leftButton = this.el.querySelector(".left-button");
+        this.rightButton = this.el.querySelector(".right-button");
+        this.images = this.el.querySelectorAll(".c-img");
         this.currentIndex = 0; // STARTING INDEX
         this.currentImage = el.querySelector(`img[data-index="${this.currentIndex}"]`);
-        this.leftButton.addEventListener("click", () => {this.moveLeft()});
-        this.rightButton.addEventListener("click", () => {this.moveRight()});
+        this.leftButton.addEventListener("click", () => {this.slideLeft()});
+        this.rightButton.addEventListener("click", () => {this.slideRight()});
     }
     moveLeft() {
         if(this.currentIndex === 0) {
@@ -21,6 +20,18 @@ class Carousel {
         console.log(this.currentIndex);
     }
 
+    slideLeft() {
+        this.currentImage.className = "c-img transition left";
+        if(this.currentIndex === 0) {
+            this.currentIndex = (this.images.length - 1);
+        } else {
+            this.currentIndex --;
+        }
+        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+        this.currentImage.className = "c-img right";
+        setTimeout(() => {this.currentImage.classList.add("transition", "center")}, 0);
+    }
+
     moveRight() {
         if(this.currentIndex === (this.images.length - 1)) {
             this.currentIndex = 0;
@@ -29,6 +40,17 @@ class Carousel {
         }
         this.images.forEach(el => el.classList.remove("visible"));
         this.images[this.currentIndex].classList.add("visible");
+    }
+
+    slideRight() {
+        this.currentImage.className = "c-img transition right";        if(this.currentIndex === (this.images.length - 1)) {
+            this.currentIndex = 0;
+        } else {
+            this.currentIndex ++;
+        }
+        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+        this.currentImage.className = "c-img left";
+        setTimeout(() => {this.currentImage.classList.add("transition", "center")}, 0);
     }
 }
 
