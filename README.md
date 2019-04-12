@@ -32,20 +32,35 @@ Edit this document to include your answers after each question. Make sure to lea
 
 1. What is the DOM?
 
+DOM stands for Direct Object Model. It is not exactly a language, but is rather a shared syntax to be used across multiple platforms to provide a stardard for interacting with HTML. So, for our purposes, it's basically a bridge from JavaScript to HTML.
+
+
 2. What is an event?
+
+An event is anything and everything that happens to HMTL elements in a browser. Events include a user clicking on an item, or hovering over that item. They also include the page loading, content on a form changing, or an error being logged.
+
 
 3. What is an event listener?
 
+An event listener is a method in JS that checks the state of a particular event, as defined by the user. When the event occurs, the event listener calls a function, effectively creating a trigger for a webpage to run a JavaScript function.
+
+
 4. Why would we convert a NodeList into an Array?
+
+We would because though a NodeList is functionally very similar to an array, it has a different prototype function that lacks most of the methods found on an array.
+
 
 5. What is a component?
 
+A component is a section of code that can be separated from it's original project and integrated into other projects.
+
+
 ### Git Set up
 
-* [ ] Fork the project into your GitHub user account
-* [ ] Clone the forked project into a directory on your machine
-* [ ] Create a pull request before you start working on the project requirements.  You will continuously push your updates throughout the project.
-* [ ] You are now ready to build this project with your preferred IDE
+* [x] Fork the project into your GitHub user account
+* [x] Clone the forked project into a directory on your machine
+* [x] Create a pull request before you start working on the project requirements.  You will continuously push your updates throughout the project.
+* [x] You are now ready to build this project with your preferred IDE
 
 ## Minimum Viable Product
 
