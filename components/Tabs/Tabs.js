@@ -13,11 +13,13 @@ class TabLink {
       this.cards = cardsContainer.querySelectorAll(".card");
     } else {
       // else if `all` is false, only select the cards with matching this.tabData values
-      this.cards = cardsContainer.querySelectorAll(`[data-tab="${this.tabData}]"`);
+      this.cards = cardsContainer.querySelectorAll(`.card[data-tab ="${this.tabData}"]`);
     }
 
     // Map over the newly converted NodeList we just created in our if statement above. Convert each this.cards element into a new instance of the TabCard class. Pass in a card object to the TabCard class.
-    this.cards = Array.from(this.cards).map(function(el) {new TabCard(el)});
+
+    this.cards = Array.from(this.cards).map(function(el) {return new TabCard(el)});
+    
 
     // Add a click event that invokes this.selectTab
     this.tabElement.addEventListener("click", () => {this.selectTab()});
@@ -27,21 +29,20 @@ class TabLink {
 
     // Select all elements with the .tab class on them
     const tabs = document.querySelectorAll(".tab");
-    
+
     // Iterate through the NodeList removing the .active-tab class from each element
-    tabs.forEach(el => el.classList.remove(".active-tab"));
+    tabs.forEach(el => el.classList.remove("active-tab"));
 
     // Select all of the elements with the .card class on them
-    const cards = cardsContainer.querySelectorAll(".card");
+    const allCards = cardsContainer.querySelectorAll(".card");
 
     // Iterate through the NodeList setting the display style each one to 'none'
-    cards.forEach(el => el.style.display = "none");
+    allCards.forEach(el => el.style.display = "none");
     
     // Add a class of ".active-tab" to this.tabElement
-    this.tabElement.classList.add(".active-tab");
+    this.tabElement.classList.add("active-tab");
   
     // Notice we are looping through the this.cards array and invoking selectCard() from the TabCard class. Just un-comment the code and study what is happening here.
-    console.log(this.cards);
     this.cards.forEach(function(card) {card.selectCard()});
   }
 }
