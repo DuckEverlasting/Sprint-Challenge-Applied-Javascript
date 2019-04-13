@@ -4,53 +4,67 @@ class Carousel {
         this.leftButton = this.el.querySelector(".left-button");
         this.rightButton = this.el.querySelector(".right-button");
         this.images = this.el.querySelectorAll(".c-img");
+        this.imageBox = this.el.querySelector(".img-box");
         this.currentIndex = 0; // STARTING INDEX
-        this.currentImage = el.querySelector(`img[data-index="${this.currentIndex}"]`);
+        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+
+        this.indicatorBox = this.el.querySelector(".indicator-box");
+        this.indicatorMaster = this.indicatorBox.querySelector(".indicator[data-index='0']");
+        for(let i = 1; i < this.images.length; i++) {
+            this.indicatorBox.appendChild(this.indicatorMaster.cloneNode());
+        };
+        this.clickCatcher = null;
+        this.indicatorBox.querySelectorAll(".indicator").forEach(
+            (el, i) => {
+                el.dataset.index = i;
+                el.onclick = () => {this.clickCatcher = i}
+            }
+        );
+        this.indicatorMaster.classList.add("ind-selected")
+        this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+
         this.leftButton.addEventListener("click", () => {this.slideLeft()});
         this.rightButton.addEventListener("click", () => {this.slideRight()});
-    }
-    moveLeft() {
-        if(this.currentIndex === 0) {
-            this.currentIndex = (this.images.length - 1);
-        } else {
-            this.currentIndex --;
-        }
-        this.images.forEach(el => el.classList.remove("visible"));
-        this.images[this.currentIndex].classList.add("visible");
-        console.log(this.currentIndex);
-    }
-
+        this.indicatorBox.addEventListener("click", () => {this.indicatorClick()});
+    };
+    
     slideLeft() {
-        this.currentImage.className = "c-img transition left";
-        if(this.currentIndex === 0) {
-            this.currentIndex = (this.images.length - 1);
-        } else {
+        if(this.currentIndex !== 0) {
+            this.currentImage.classList.remove("selected");
+            this.currentIndicator.classList.remove("ind-selected");
             this.currentIndex --;
-        }
-        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
-        this.currentImage.className = "c-img right";
-        setTimeout(() => {this.currentImage.classList.add("transition", "center")}, 0);
-    }
-
-    moveRight() {
-        if(this.currentIndex === (this.images.length - 1)) {
-            this.currentIndex = 0;
-        } else {
-            this.currentIndex ++;
-        }
-        this.images.forEach(el => el.classList.remove("visible"));
-        this.images[this.currentIndex].classList.add("visible");
+            this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
+            this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+            this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+            this.currentImage.classList.add("selected");
+            this.currentIndicator.classList.add("ind-selected");
+        }        
     }
 
     slideRight() {
-        this.currentImage.className = "c-img transition right";        if(this.currentIndex === (this.images.length - 1)) {
-            this.currentIndex = 0;
-        } else {
+        if(this.currentIndex !== (this.images.length - 1)) {
+            this.currentImage.classList.remove("selected");
+            this.currentIndicator.classList.remove("ind-selected");
             this.currentIndex ++;
+            this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
+            this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+            this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+            this.currentImage.classList.add("selected");
+            this.currentIndicator.classList.add("ind-selected");
         }
+    }
+
+    indicatorClick() {
+        if (this.clickCatcher === null) {return};
+        this.currentImage.classList.remove("selected");
+        this.currentIndicator.classList.remove("ind-selected");
+        this.currentIndex = this.clickCatcher;
+        this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
         this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
-        this.currentImage.className = "c-img left";
-        setTimeout(() => {this.currentImage.classList.add("transition", "center")}, 0);
+        this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+        this.currentImage.classList.add("selected");
+        this.currentIndicator.classList.add("ind-selected");
+        this.clickCatcher = null;
     }
 }
 
