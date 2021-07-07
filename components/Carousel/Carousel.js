@@ -1,34 +1,70 @@
 class Carousel {
     constructor(el) {
         this.el = el;
-        this.leftButton = el.querySelector(".left-button");
-        this.rightButton = el.querySelector(".right-button");
-        this.images = el.querySelectorAll(".carousel-img");
-        this.images[0].classList.add("visible") // STARTING IMAGE
+        this.leftButton = this.el.querySelector(".left-button");
+        this.rightButton = this.el.querySelector(".right-button");
+        this.images = this.el.querySelectorAll(".c-img");
+        this.imageBox = this.el.querySelector(".img-box");
         this.currentIndex = 0; // STARTING INDEX
-        this.currentImage = el.querySelector(`img[data-index="${this.currentIndex}"]`);
-        this.leftButton.addEventListener("click", () => {this.moveLeft()});
-        this.rightButton.addEventListener("click", () => {this.moveRight()});
-    }
-    moveLeft() {
-        if(this.currentIndex === 0) {
-            this.currentIndex = (this.images.length - 1);
-        } else {
+        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+
+        this.indicatorBox = this.el.querySelector(".indicator-box");
+        this.indicatorMaster = this.indicatorBox.querySelector(".indicator[data-index='0']");
+        for(let i = 1; i < this.images.length; i++) {
+            this.indicatorBox.appendChild(this.indicatorMaster.cloneNode());
+        };
+        this.clickCatcher = null;
+        this.indicatorBox.querySelectorAll(".indicator").forEach(
+            (el, i) => {
+                el.dataset.index = i;
+                el.onclick = () => {this.clickCatcher = i}
+            }
+        );
+        this.indicatorMaster.classList.add("ind-selected")
+        this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+
+        this.leftButton.addEventListener("click", () => {this.slideLeft()});
+        this.rightButton.addEventListener("click", () => {this.slideRight()});
+        this.indicatorBox.addEventListener("click", () => {this.indicatorClick()});
+    };
+    
+    slideLeft() {
+        if(this.currentIndex !== 0) {
+            this.currentImage.classList.remove("selected");
+            this.currentIndicator.classList.remove("ind-selected");
             this.currentIndex --;
-        }
-        this.images.forEach(el => el.classList.remove("visible"));
-        this.images[this.currentIndex].classList.add("visible");
-        console.log(this.currentIndex);
+            this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
+            this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+            this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+            this.currentImage.classList.add("selected");
+            this.currentIndicator.classList.add("ind-selected");
+        }        
     }
 
-    moveRight() {
-        if(this.currentIndex === (this.images.length - 1)) {
-            this.currentIndex = 0;
-        } else {
+    slideRight() {
+        if(this.currentIndex !== (this.images.length - 1)) {
+            this.currentImage.classList.remove("selected");
+            this.currentIndicator.classList.remove("ind-selected");
             this.currentIndex ++;
+            this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
+            this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+            this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+            this.currentImage.classList.add("selected");
+            this.currentIndicator.classList.add("ind-selected");
         }
-        this.images.forEach(el => el.classList.remove("visible"));
-        this.images[this.currentIndex].classList.add("visible");
+    }
+
+    indicatorClick() {
+        if (this.clickCatcher === null) {return};
+        this.currentImage.classList.remove("selected");
+        this.currentIndicator.classList.remove("ind-selected");
+        this.currentIndex = this.clickCatcher;
+        this.imageBox.style.transform = (`translateX(-${this.currentIndex * 100}%)`);
+        this.currentImage = this.el.querySelector(`img[data-index="${this.currentIndex}"]`);
+        this.currentIndicator = this.el.querySelector(`.indicator[data-index="${this.currentIndex}"]`);
+        this.currentImage.classList.add("selected");
+        this.currentIndicator.classList.add("ind-selected");
+        this.clickCatcher = null;
     }
 }
 

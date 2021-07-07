@@ -4,6 +4,18 @@
 .border-bottom-grey {
   border-bottom: 1px solid lightgrey;
 }
+@keyframes to-left {
+  0% {
+    transform: translateX(0);
+    display: block;
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    display: none;
+  }
+}
 @font-face {
   font-family: 'PT Sans';
   font-style: italic;
@@ -54,6 +66,7 @@ body {
   position: fixed;
   height: 44px;
   background-color: #333;
+  z-index: 2;
 }
 .top-bar .container {
   width: 100%;
@@ -257,35 +270,35 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  height: 500px;
+  height: auto;
   position: relative;
   overflow: hidden;
   margin-top: 16px;
-}
-@media (min-width: 1200px) {
-  .carousel {
-    width: 1200px;
-  }
+  background: black;
+  max-width: 1200px;
+  height: 500px;
+  user-select: none;
 }
 .carousel .left-button,
 .carousel .right-button {
   display: flex;
   justify-content: center;
-  align-items: none;
+  align-items: center;
   flex-direction: row;
   color: #fff;
-  background-color: #333;
+  background: rgba(51, 51, 51, 0.8);
   font-size: 40px;
   border-radius: 50%;
   position: absolute;
   width: 50px;
   height: 50px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 .carousel .left-button:hover,
 .carousel .right-button:hover {
   color: #333;
-  background-color: #fff;
+  background: #ffffff;
   border: 2px solid #333;
 }
 .carousel .left-button {
@@ -293,15 +306,61 @@ body {
   left: 25px;
   transform: translate(0, -50%);
 }
+.carousel .indicator-box {
+  display: flex;
+  position: relative;
+  align-self: flex-end;
+  padding: 5px;
+  margin-bottom: 30px;
+  background: rgba(51, 51, 51, 0.8);
+  border-radius: 20px;
+}
+.carousel .indicator-box .line {
+  position: absolute;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  height: 50%;
+  width: 90%;
+  top: 0;
+  left: 5%;
+  margin-top: 1px;
+}
+.carousel .indicator-box .indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3a3a3a;
+  border: 2px solid #fff;
+  margin: 0 15px;
+  z-index: 2;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carousel .indicator-box .indicator:hover:not(.ind-selected) {
+  background: #555555;
+}
+.carousel .indicator-box .ind-selected {
+  background: white;
+}
 .carousel .right-button {
   top: 50%;
   right: 25px;
   transform: translate(0, -50%);
 }
-.carousel img {
+.carousel .img-box {
+  position: absolute;
+  display: flex;
   width: 100%;
-  display: none;
+  object-fit: contain;
+  transition: transform 1s ease-in-out;
+  transform: translateX(0);
 }
-.carousel .visible {
-  display: block;
+.carousel .img-box img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  opacity: 0.25;
+  transition: opacity 1s ease-in-out;
+}
+.carousel .img-box .selected {
+  opacity: 1;
 }
